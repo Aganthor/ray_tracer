@@ -5,14 +5,22 @@ mod color;
 use color::Color;
 mod ray;
 
-fn ray_color(r: ray::Ray) -> Color {
+fn ray_color(r: &ray::Ray) -> Color {
+    if hit_sphere(ray::Point3::new(0.0, 0.0, -1.0), 0.5, r) {
+        return Color::new(1.0, 0.0, 0.0);
+    }
     let unit_direction: vec3::Vec3 = unit_vector(r.dir);
     let t = 0.5 * (unit_direction.y() + 1.0);
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
 }
 
-fn hit_sphere(center: ray::Point3, radius: f64, r: ray::Ray) -> bool {
-    
+fn hit_sphere(center: ray::Point3, radius: f64, r: &ray::Ray) -> bool {
+    let oc = r.orig - center;
+    let a = vec3::dot(r.dir, r.dir);
+    let b = 2.0 * vec3::dot(oc, r.dir);
+    let c = vec3::dot(oc, oc) - radius * radius;
+    let discriminant = b*b - 4.0*a*c;
+    discriminant > 0.0
 }
 
 fn main() {
@@ -41,7 +49,7 @@ fn main() {
             let v = j as f64 / (image_height as f64 - 1.0);
             let r = ray::Ray::new(origin, lower_left_corner + u * horizontal + v * vertical - origin);            
 
-            let pixel_color = ray_color(r);
+            let pixel_color = ray_color(&r);
             let c = color::color_pixel(pixel_color.x(), pixel_color.y(), pixel_color.z());
             ray_trace.set_pixel(i, j, c.x() as u8, c.y() as u8, c.z() as u8);
         }
