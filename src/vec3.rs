@@ -13,13 +13,13 @@ impl Vec3 {
 
     // Practical accessors.
     pub fn x(self) -> f64 {
-        self.e[0]
+        self[0]
     }
     pub fn y(self) -> f64 {
-        self.e[1]
+        self[1]
     }
     pub fn z(self) -> f64 {
-        self.e[2]
+        self[2]
     }
 
     pub fn lenght(self) -> f64 {
@@ -27,7 +27,7 @@ impl Vec3 {
     }
 
     pub fn lenght_squared(self) -> f64 {
-        self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
+        self[0] * self[0] + self[1] * self[1] + self[2] * self[2]
     }
 }
 
@@ -37,7 +37,7 @@ impl Neg for Vec3 {
 
     fn neg(self) -> Self::Output {
         Vec3 {
-            e: [-self.e[0], -self.e[1], -self.e[2]]
+            e: [-self[0], -self[1], -self[2]]
         }
     }
 }
@@ -72,7 +72,7 @@ impl Add for Vec3 {
 
     fn add(self, other: Self) -> Self {
         Self {
-            e: [self.e[0] + other.e[0], self.e[1] + other.e[1], self.e[2] + other.e[2]]
+            e: [self[0] + other[0], self[1] + other[1], self[2] + other[2]]
         }
     }
 }
@@ -83,7 +83,7 @@ impl Sub for Vec3 {
 
     fn sub(self, rhs: Self) -> Self::Output {
         Self {
-            e: [self.e[0] - rhs.e[0], self.e[1] - rhs.e[1], self.e[2] - rhs.e[2]]
+            e: [self[0] - rhs[0], self[1] - rhs[1], self[2] - rhs[2]]
         }
     }
 }
@@ -94,8 +94,8 @@ impl Mul for Vec3 {
 
     fn mul(self, rhs: Self) -> Self::Output {
         Self {
-            e: [self.e[0] * rhs.e[0], self.e[1] * rhs.e[1], self.e[2] * rhs.e[2]]
-        }        
+            e: [self[0] * rhs[0], self[1] * rhs[1], self[2] * rhs[2]]
+        }
     }
 }
 
@@ -104,8 +104,8 @@ impl Mul<Vec3> for f64 {
 
     fn mul(self, rhs: Vec3) -> Self::Output {
         Vec3 {
-            e: [self * rhs.e[0], self * rhs.e[1], self * rhs.e[2]]
-        }   
+            e: [self * rhs[0], self * rhs[1], self * rhs[2]]
+        }
     }
 }
 
@@ -114,7 +114,7 @@ impl Mul<f64> for Vec3 {
 
     fn mul(self, t: f64) -> Self::Output {
         Self {
-            e: [t * self.e[0], t * self.e[1], t * self.e[2]]
+            e: [t * self[0], t * self[1], t * self[2]]
         }
     }
 }
@@ -126,9 +126,9 @@ impl Div<f64> for Vec3 {
     fn div(self, t: f64) -> Self::Output {
         Vec3 {
             e: [
-                (1.0 / t) * self.e[0],
-                (1.0 / t) * self.e[1],
-                (1.0 / t) * self.e[2],
+                (1.0 / t) * self[0],
+                (1.0 / t) * self[1],
+                (1.0 / t) * self[2],
                 ]
 
         }
@@ -139,7 +139,7 @@ use std::ops::AddAssign;
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         *self = Self {
-            e: [self.e[0] + rhs.e[0], self.e[1] + rhs.e[1], self.e[2] + rhs.e[2]]
+            e: [self[0] + rhs[0], self[1] + rhs[1], self[2] + rhs[2]]
         }
     }
 }
@@ -147,31 +147,31 @@ impl AddAssign for Vec3 {
 use std::ops::MulAssign;
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, rhs: f64) {
-        self.e[0] *= rhs;
-        self.e[1] *= rhs;
-        self.e[2] *= rhs;
+        self[0] *= rhs;
+        self[1] *= rhs;
+        self[2] *= rhs;
     }
 }
 
 use std::ops::DivAssign;
 impl DivAssign<f64> for Vec3 {
     fn div_assign(&mut self, rhs: f64) {
-        self.e[0] *= 1.0 / rhs;
-        self.e[1] *= 1.0 / rhs;
-        self.e[2] *= 1.0 / rhs;
+        self[0] *= 1.0 / rhs;
+        self[1] *= 1.0 / rhs;
+        self[2] *= 1.0 / rhs;
     }
 }
 
 pub fn dot(lhs: Vec3, rhs: Vec3) -> f64 {
-    lhs.e[0] * rhs.e[0] + lhs.e[1] * rhs.e[1] + lhs.e[2] * rhs.e[2]
+    lhs[0] * rhs[0] + lhs[1] * rhs[1] + lhs[2] * rhs[2]
 }
 
 pub fn cross(lhs: Vec3, rhs: Vec3) -> Vec3 {
     Vec3 {
         e: [
-            lhs.e[1] * rhs.e[2] - lhs.e[2] * rhs.e[1],
-            lhs.e[2] * rhs.e[0] - lhs.e[0] * rhs.e[2],
-            lhs.e[0] * rhs.e[1] - lhs.e[1] * rhs.e[0]
+            lhs[1] * rhs[2] - lhs[2] * rhs[1],
+            lhs[2] * rhs[0] - lhs[0] * rhs[2],
+            lhs[0] * rhs[1] - lhs[1] * rhs[0]
         ]
     }
 }
